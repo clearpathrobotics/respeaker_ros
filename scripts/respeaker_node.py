@@ -109,9 +109,15 @@ class RespeakerInterface(object):
     PRODUCT_ID = 0x0018
     TIMEOUT = 100000
 
-    def __init__(self):
-        self.dev = usb.core.find(idVendor=self.VENDOR_ID,
-                                 idProduct=self.PRODUCT_ID)
+    def __init__(self, device_index=0):
+        devices = usb.core.find(find_all=True,
+                                idVendor=self.VENDOR_ID,
+                                idProduct=self.PRODUCT_ID)
+
+        rospy.loginfo("Attempting to open Respeaker device [{0}]...".format(device_index))
+        for i in range(device_index):
+            self.dev = devices.next()
+
         if not self.dev:
             raise RuntimeError("Failed to find Respeaker device")
         rospy.loginfo("Initializing Respeaker device")
@@ -311,9 +317,10 @@ class RespeakerNode(object):
         self.speech_max_duration = rospy.get_param("~speech_max_duration", 7.0)
         self.speech_min_duration = rospy.get_param("~speech_min_duration", 0.1)
         self.main_channel = rospy.get_param('~main_channel', 0)
+        self.device_index = rospy.get_param('~device_index', 0)
         suppress_pyaudio_error = rospy.get_param("~suppress_pyaudio_error", True)
         #
-        self.respeaker = RespeakerInterface()
+        self.respeaker = RespeakerInterface(self.device_index)
         self.respeaker_audio = RespeakerAudio(self.on_audio, suppress_error=suppress_pyaudio_error)
         self.speech_audio_buffer = str()
         self.is_speeching = False
