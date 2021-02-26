@@ -1,5 +1,5 @@
 <launch>
-  <arg name="device_index"          default="=" />
+  <arg name="device_index"          default="" />
   <arg name="sensor_frame_id"       default="respeaker_base" />
   <arg name="enable_speech_to_text" default="false" />
 
