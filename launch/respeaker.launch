@@ -2,15 +2,16 @@
   <arg name="device_index"          default="" />
   <arg name="name"                  default="respeaker" />
   <arg name="enable_speech_to_text" default="false" />
+  <arg name="speech_topic"          default="speech_audio" />
 
-  <node name="respeaker_node" pkg="respeaker_ros" type="respeaker_node.py" output="screen">
+  <node name="$(arg name)_node" pkg="respeaker_ros" type="respeaker_node.py" output="screen">
     <param name="device_index"    value="$(arg device_index)" />
     <param name="sensor_frame_id" value="$(arg name)_base" />
   </node>
 
   <group if="$(arg enable_speech_to_text)">
-    <node name="speech_to_text" pkg="respeaker_ros" type="speech_to_text.py">
-      <remap from="audio" to="speech_audio"/>
+    <node name="$(arg name)_speech_to_text" pkg="respeaker_ros" type="speech_to_text.py">
+      <remap from="audio" to="$(arg speech_topic)"/>
       <rosparam>
         language: en-US
         self_cancellation: true
