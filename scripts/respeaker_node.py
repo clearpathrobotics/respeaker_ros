@@ -115,6 +115,7 @@ class RespeakerInterface(object):
                                 idProduct=self.PRODUCT_ID)
 
         rospy.loginfo("Attempting to open Respeaker device [{0}]...".format(device_index))
+        self.dev = devices.next()
         for i in range(device_index):
             self.dev = devices.next()
 
