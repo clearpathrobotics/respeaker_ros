@@ -335,7 +335,7 @@ class RespeakerNode(object):
         self.pub_doa = rospy.Publisher("{0}/sound_localization".format(self.name), PoseStamped, queue_size=1, latch=True)
         self.pub_audio = rospy.Publisher("{0}/audio".format(self.name), AudioData, queue_size=10)
         self.pub_speech_audio = rospy.Publisher("{0}/speech_audio".format(self.name), AudioData, queue_size=10)
-        self.pub_audios = {c:rospy.Publisher("{0}/audio/channel{1}".format(self.name. c), AudioData, queue_size=10) for c in self.respeaker_audio.channels}
+        self.pub_audios = {c:rospy.Publisher("{0}/audio/channel{1}".format(self.name, c), AudioData, queue_size=10) for c in self.respeaker_audio.channels}
         # init config
         self.config = None
         self.dyn_srv = Server(RespeakerConfig, self.on_config)
