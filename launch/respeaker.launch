@@ -5,6 +5,7 @@
   <arg name="speech_topic"          default="speech_audio" />
 
   <node name="$(arg name)_node" pkg="respeaker_ros" type="respeaker_node.py" output="screen">
+    <param name="name"            value="$(arg name)" />
     <param name="device_index"    value="$(arg device_index)" />
     <param name="sensor_frame_id" value="$(arg name)_base" />
   </node>

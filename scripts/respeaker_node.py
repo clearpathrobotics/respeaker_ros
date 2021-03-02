@@ -319,6 +319,7 @@ class RespeakerNode(object):
         self.speech_min_duration = rospy.get_param("~speech_min_duration", 0.1)
         self.main_channel = rospy.get_param('~main_channel', 0)
         self.device_index = rospy.get_param('~device_index', 0)
+        self.name = rospy.get_param("~name", "respeaker")
         suppress_pyaudio_error = rospy.get_param("~suppress_pyaudio_error", True)
         #
         self.respeaker = RespeakerInterface(self.device_index)
@@ -329,12 +330,12 @@ class RespeakerNode(object):
         self.prev_is_voice = None
         self.prev_doa = None
         # advertise
-        self.pub_vad = rospy.Publisher("is_speeching", Bool, queue_size=1, latch=True)
-        self.pub_doa_raw = rospy.Publisher("sound_direction", Int32, queue_size=1, latch=True)
-        self.pub_doa = rospy.Publisher("sound_localization", PoseStamped, queue_size=1, latch=True)
-        self.pub_audio = rospy.Publisher("audio", AudioData, queue_size=10)
-        self.pub_speech_audio = rospy.Publisher("speech_audio", AudioData, queue_size=10)
-        self.pub_audios = {c:rospy.Publisher('audio/channel%d' % c, AudioData, queue_size=10) for c in self.respeaker_audio.channels}
+        self.pub_vad = rospy.Publisher("{0}/is_speeching".format(self.name), Bool, queue_size=1, latch=True)
+        self.pub_doa_raw = rospy.Publisher("{0}/sound_direction".format(self.name), Int32, queue_size=1, latch=True)
+        self.pub_doa = rospy.Publisher("{0}/sound_localization".format(self.name), PoseStamped, queue_size=1, latch=True)
+        self.pub_audio = rospy.Publisher("{0}/audio".format(self.name), AudioData, queue_size=10)
+        self.pub_speech_audio = rospy.Publisher("{0}/speech_audio".format(self.name), AudioData, queue_size=10)
+        self.pub_audios = {c:rospy.Publisher("{0}/audio/channel{1}".format(self.name. c), AudioData, queue_size=10) for c in self.respeaker_audio.channels}
         # init config
         self.config = None
         self.dyn_srv = Server(RespeakerConfig, self.on_config)
@@ -346,7 +347,7 @@ class RespeakerNode(object):
         self.info_timer = rospy.Timer(rospy.Duration(1.0 / self.update_rate),
                                       self.on_timer)
         self.timer_led = None
-        self.sub_led = rospy.Subscriber("status_led", ColorRGBA, self.on_status_led)
+        self.sub_led = rospy.Subscriber("{0}/status_led".format(self.name), ColorRGBA, self.on_status_led)
 
     def on_shutdown(self):
         try:
