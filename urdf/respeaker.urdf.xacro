@@ -1,0 +1,26 @@
+<robot xmlns:xacro="https://wiki.ros.org/xacro">
+  <xacro:macro name="respeaker" params="prefix:=respeaker parent_link:=base_link *origin">
+    <link name="${prefix}_base">
+      <visual>
+        <geometry>
+          <cylinder radius="0.039" length="0.028" />
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1" />
+        </material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.039" length="0.028" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${prefix}_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${prefix}_base" />
+      <xacro:insert_block name="origin" />
+    </joint>
+  </xacro:macro>
+</robot>

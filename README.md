@@ -16,9 +16,9 @@ A ROS Package for Respeaker Mic Array
 
     ```bash
     mkdir -p ~/catkin_ws/src && ~/catkin_ws/src
-    git clone https://github.com/furushchev/respeaker_ros.git
+    git clone https://github.com/clearpathrobotics/respeaker_ros.git
     cd ~/catkin_ws
-    source /opt/ros/kinetic/setup.bash
+    source /opt/ros/$ROS_DISTRO/setup.bash
     rosdep install --from-paths src -i -r -n -y
     catkin config --init
     catkin build respeaker_ros
@@ -34,8 +34,9 @@ A ROS Package for Respeaker Mic Array
 
     ```bash
     roscd respeaker_ros
-    sudo cp -f $(rospack find respeaker_ros)/config/60-respeaker.rules /etc/udev/rules.d/60-respeaker.rules
-    sudo systemctl restart udev
+    sudo cp -f $(rospack find respeaker_ros)/debian/udev /etc/udev/rules.d/60-respeaker.rules
+    sudo udevadm control --reload rules
+    sudo udevadm trigger
     ```
 
     And then re-connect the device.
@@ -52,7 +53,7 @@ A ROS Package for Respeaker Mic Array
     ```bash
     git clone https://github.com/respeaker/usb_4_mic_array.git
     cd usb_4_mic_array
-    sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
+    sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version
     ```
 
 ## How to use

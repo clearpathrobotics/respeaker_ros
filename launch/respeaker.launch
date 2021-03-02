@@ -1,11 +1,11 @@
 <launch>
   <arg name="device_index"          default="" />
-  <arg name="sensor_frame_id"       default="respeaker_base" />
+  <arg name="name"                  default="respeaker" />
   <arg name="enable_speech_to_text" default="false" />
 
   <node name="respeaker_node" pkg="respeaker_ros" type="respeaker_node.py" output="screen">
     <param name="device_index"    value="$(arg device_index)" />
-    <param name="sensor_frame_id" value="$(arg sensor_frame_id)" />
+    <param name="sensor_frame_id" value="$(arg name)_base" />
   </node>
 
   <group if="$(arg enable_speech_to_text)">

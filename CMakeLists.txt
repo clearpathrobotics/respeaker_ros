@@ -18,7 +18,7 @@ catkin_install_python(
   scripts/speech_to_text.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(DIRECTORY scripts launch
+install(DIRECTORY urdf scripts launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   USE_SOURCE_PERMISSIONS)
 
